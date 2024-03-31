@@ -48,4 +48,56 @@ public class BinaryAPIControllerTest {
 			.andExpect(MockMvcResultMatchers.jsonPath("$.result").value(10001))
 			.andExpect(MockMvcResultMatchers.jsonPath("$.operator").value("add"));
     }
+
+    @Test
+    public void multiply() throws Exception {
+        this.mvc.perform(get("/multiply").param("operand1","11011").param("operand2","110"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("10100010"));
+    }
+
+    @Test
+    public void multiply2() throws Exception {
+        this.mvc.perform(get("/multiply_json").param("operand1","11011").param("operand2","110"))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.operand1").value(11011))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.operand2").value(110))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.result").value(10100010))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.operator").value("multiply"));
+    }
+
+    @Test
+    public void bitwiseOR() throws Exception {
+        this.mvc.perform(get("/bitwiseOR").param("operand1","1010").param("operand2","100"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("1110"));
+    }
+
+    @Test
+    public void bitwiseOR2() throws Exception {
+        this.mvc.perform(get("/bitwiseOR_json").param("operand1","1010").param("operand2","100"))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.operand1").value(1010))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.operand2").value(100))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.result").value(1110))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.operator").value("bitwiseOR"));
+    }
+
+    @Test
+    public void bitwiseAND() throws Exception {
+        this.mvc.perform(get("/bitwiseAND").param("operand1","100100101").param("operand2","11011"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("1"));
+    }
+
+    @Test
+    public void bitwiseAND2() throws Exception {
+        this.mvc.perform(get("/bitwiseAND_json").param("operand1","100100101").param("operand2","11011"))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.operand1").value(100100101))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.operand2").value(11011))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.result").value(1))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.operator").value("bitwiseAND"));
+    }
+
 }
